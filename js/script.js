@@ -38,6 +38,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let index = 0;
     let isDeleting = false;
+    let animationCompleted = false; // Variável para controlar se a animação já foi completada
+    let isAnimating = false; // Variável para controlar se a animação está em andamento
 
     function debounce(func, delay) {
         let timer; // Variável para armazenar o ID do temporizador
@@ -53,28 +55,37 @@ document.addEventListener('DOMContentLoaded', () => {
         if (index < text.length) {
             aboutText.textContent = text.substring(0, index + 1); // Adiciona uma letra
             index++;
-            setTimeout(debouncedTypeText, 100); // Tempo para digitar
+            setTimeout(debouncedTypeText, 25); // Tempo para digitar
         } else {
             isDeleting = true; // Muda para modo de apagar
-            setTimeout(debouncedDeleteText, 200); // Pausa antes de começar a apagar
+            setTimeout(debouncedDeleteText, 50); // Pausa antes de começar a apagar
         }
-    }, 400); // Debounce para digitar
+    }, 100); // Debounce para digitar
 
     const debouncedDeleteText = debounce(() => {
         if (index > 0) {
             aboutText.textContent = text.substring(0, index - 1); // Remove uma letra
             index--;
-            setTimeout(debouncedDeleteText, 100); // Tempo para apagar
+            setTimeout(debouncedDeleteText, 25); // Tempo para apagar
         } else {
             isDeleting = false; // Muda para modo de digitação
-            setTimeout(debouncedTypeText, 200); // Pausa antes de começar a digitar novamente
+            animationCompleted = true; // Marca a animação como completada
+            isAnimating = false; // Reseta o estado de animação
         }
-    }, 400); // Debounce para apagar
+    }, 100); // Debounce para apagar
+
+    // Função para iniciar a animação
+    function startAnimation() {
+        if (isAnimating || animationCompleted) return; // Evita iniciar uma nova animação se já estiver em andamento ou se já foi completada
+        isAnimating = true; // Marca a animação como em andamento
+        index = 0; // Reseta o índice para reiniciar a animação
+        debouncedTypeText(); // Inicia a digitação
+    }
 
     // Inicia a digitação quando a seção about estiver visível
     const observer = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting) {
-            debouncedTypeText(); // Inicia o loop de digitação e apagamento
+            startAnimation(); // Inicia a animação ao entrar na seção
         }
     });
 
