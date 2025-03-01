@@ -24,7 +24,7 @@ body {
     --degrade-bg-1: linear-gradient(#000000, #6237ff);
 }
 
-.backgroung-roxo {
+.background-roxo {
     background-image: var(--degrade-bg);
 }
 
@@ -245,3 +245,13 @@ main .container {
 }
 /*end section*/
 
+.me-text {
+    display: flex;
+    color: white;
+    font-size: 1.2rem;
+    margin: 40px 10px;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+    padding: 0 700px;
+}
