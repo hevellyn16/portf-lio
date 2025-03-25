@@ -251,7 +251,7 @@ main .container {
     font-size: 1.2rem;
     margin: 40px 10px;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: space-between;
     width: 100%;
     padding: 0 700px;
 }
